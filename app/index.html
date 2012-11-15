@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+  <title>jQuery.Disposable Spec Runner</title>
+
+
+  <link rel="stylesheet" type="text/css" href="lib/jasmine/jasmine.css">
+
+
+  <!-- jasmine -->
+  <script src="lib/jasmine/jasmine.js"></script>
+  <script src="lib/jasmine/jasmine-html.js"></script>
+  <!-- jquery -->
+  <script src="lib/jquery/jquery.js"></script>
+  <!-- bem -->
+  <script src="lib/bem/i-jquery__inherit.js"></script>
+  <script src="lib/bem/i-jquery__is-empty-object.js"></script>
+  <script src="lib/bem/i-jquery__identify.js"></script>
+  <script src="lib/bem/i-jquery__observable.js"></script>
+  <script src="lib/bem/i-bem.js"></script>
+  <!-- jquery.disposable -->
+  <script src="src/disposable.jquery.js"></script>
+
+
+  <!-- SPEC -->
+  <script type="text/javascript" src="spec/disposable.jquery.spec.js"></script>
+
+  <script type="text/javascript">
+    (function() {
+      var jasmineEnv = jasmine.getEnv();
+      jasmineEnv.updateInterval = 1000;
+
+      var htmlReporter = new jasmine.HtmlReporter();
+
+      jasmineEnv.addReporter(htmlReporter);
+
+      jasmineEnv.specFilter = function(spec) {
+        return htmlReporter.specFilter(spec);
+      };
+
+      var currentWindowOnload = window.onload;
+
+      window.onload = function() {
+        if (currentWindowOnload) {
+          currentWindowOnload();
+        }
+        execJasmine();
+      };
+
+      function execJasmine() {
+        jasmineEnv.execute();
+      }
+
+    })();
+  </script>
+</head>
+<body>
+
+</body>
+</html>

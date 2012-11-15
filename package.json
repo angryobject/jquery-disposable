@@ -1,0 +1,8 @@
+{
+  "name": "jQuery.Disposable",
+  "description": "A jQuery helper plugin for disposing callback functions and detaching events",
+  "version": "0.1.0",
+  "homepage": "",
+  "dependencies": {},
+  "devDependencies": {}
+}
