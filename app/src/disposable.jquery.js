@@ -26,10 +26,10 @@
    */
   $.Disposable.prototype.callback = function (fn, ctx) {
     var host = {
-      fn: fn,
+      isDisposed: false,
       callback: function () {
-        var context = ctx ? ctx : this;
-        return host.fn.apply(context, arguments);
+        if (host.isDisposed) return;
+        return fn.apply(ctx ? ctx : this, arguments);
       }
     };
 
@@ -45,8 +45,7 @@
     var host;
 
     while (this._callbacks.length) {
-      host = this._callbacks.pop();
-      host.fn = $.noop;
+      this._callbacks.pop().isDisposed = true;
     }
   };
 
