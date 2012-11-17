@@ -220,6 +220,92 @@ describe('jQuery.Disposable', function() {
 		expect(ctx).toEqual(undefined);
 	});
 
+	it('should be able to attach events to ymaps objects', function () {
+		var ymapsObj = new ymaps.GeoObject({
+		  type: 'Point',
+		  coordinates: [55.8, 37.8]
+		}),
+			callback = {
+				fn: function () {}
+			},
+			data,
+			ctx;
+
+		spyOn(callback, 'fn');
+
+		d.ymaps(ymapsObj).on('click', callback.fn);
+		d.ymaps(ymapsObj).on('someEvt', function (e) {
+			data = e;
+		});
+		d.ymaps(ymapsObj).on('someOtherEvt', function (e) {
+			ctx = this;
+		}, {foo: 'bar'});
+
+		ymapsObj.events.fire('click');
+		ymapsObj.events.fire('click');
+		ymapsObj.events.fire('someEvt', {foo: 'baz'});
+		ymapsObj.events.fire('someOtherEvt');
+
+		expect(callback.fn.calls.length).toEqual(2);
+		expect(data.originalEvent.foo).toEqual('baz');
+		expect(ctx.foo).toEqual('bar');
+
+		d.ymaps(ymapsObj).on('someThirdEvt', function (e) {
+			data = e;
+			ctx = this;
+		}, {foo: 'qux'});
+
+		ymapsObj.events.fire('someThirdEvt', {bar: 'baz'});
+
+		expect(data.originalEvent.bar).toEqual('baz');
+		expect(ctx.foo).toEqual('qux');
+	});
+
+	it('should be able to dispose registered ymaps events', function () {
+		var ymapsObj = new ymaps.GeoObject({
+		  type: 'Point',
+		  coordinates: [55.8, 37.8]
+		}),
+			callback = {
+				fn: function () {}
+			},
+			data,
+			ctx;
+
+		spyOn(callback, 'fn');
+
+		d.ymaps(ymapsObj).on('click', callback.fn);
+		d.ymaps(ymapsObj).on('someEvt', function (e) {
+			data = e;
+		});
+		d.ymaps(ymapsObj).on('someOtherEvt', function (e) {
+			ctx = this;
+		}, {foo: 'bar'});
+
+		d.dispose();
+
+		ymapsObj.events.fire('click');
+		ymapsObj.events.fire('click');
+		ymapsObj.events.fire('someEvt', {foo: 'baz'});
+		ymapsObj.events.fire('someOtherEvt');
+
+		expect(callback.fn.calls.length).toEqual(0);
+		expect(data).toEqual(undefined);
+		expect(ctx).toEqual(undefined);
+
+		d.ymaps(ymapsObj).on('someThirdEvt', function (e) {
+			data = e;
+			ctx = this;
+		}, {foo: 'qux'});
+
+		d.dispose();
+
+		ymapsObj.events.fire('someThirdEvt', {bar: 'baz'});
+
+		expect(data).toEqual(undefined);
+		expect(ctx).toEqual(undefined);
+	});
+
 	it('should be able to attach events to jQuery objects using "on" method', function () {
 		var jqObj = $('<div>'),
 			callback = {
@@ -257,6 +343,27 @@ describe('jQuery.Disposable', function() {
 		bemBlock.trigger('click');
 
 		expect(d.BEM).toHaveBeenCalled();
+		expect(callback.fn.calls.length).toEqual(2);
+	});
+
+	it('should be able to attach events to ymaps objects using "on" method', function () {
+		var ymapsObj = new ymaps.GeoObject({
+		  type: 'Point',
+		  coordinates: [55.8, 37.8]
+		}),
+			callback = {
+				fn: function () {}
+			};
+
+		spyOn(callback, 'fn');
+		spyOn(d, 'ymaps').andCallThrough();
+
+		d.on(ymapsObj, 'click', callback.fn);
+
+		ymapsObj.events.fire('click');
+		ymapsObj.events.fire('click');
+
+		expect(d.ymaps).toHaveBeenCalled();
 		expect(callback.fn.calls.length).toEqual(2);
 	});
 

@@ -173,18 +173,43 @@
 
   /**
    * A ymaps object wrapper
-   * Not implemented yet
+   * Returns interface for attaching events to the wrapped object
    */
   $.Disposable.prototype.ymaps = function (elem) {
+    var that = this;
 
+    return {
+      /**
+       * Attaches events to the ymaps object
+       * Returns the ymaps object
+       */
+      on: function (types, callback, context) {
+        var args = [ types, callback ];
+
+        if (context) args.push(context);
+
+        that._ymaps.push({
+          context: elem.events,
+          args: args
+        });
+
+        elem.events.add(types, callback, context);
+
+        return elem;
+      }
+    }
   };
 
   /**
    * Disposes all registered ymaps events
-   * Not implemented yet
    */
   $.Disposable.prototype._disposeYmaps = function () {
+    var host;
 
+    while (this._ymaps.length) {
+      host = this._ymaps.pop();
+      host.context.remove.apply(host.context, host.args);
+    }
   };
 
   /**
@@ -213,9 +238,10 @@
     else if (elem instanceof BEM) {
       return this.BEM(elem).on.apply(this, rest);
     }
-
     // a ymaps object
-    // Not implemented
+    else if (this._isIEventManager(elem.events)) {
+      this.ymaps(elem).on.apply(this, rest);
+    }
   };
 
   // ################################
@@ -258,6 +284,18 @@
     };
 
     return this._interfaceMatch(obj, $.Disposable.prototype._isJqXHR.sample);
+  };
+
+  /**
+   * Checks whether given object implements IEventManager interface
+   */
+  $.Disposable.prototype._isIEventManager = function (obj) {
+    if (!$.Disposable.prototype._isIEventManager.sample) {
+      var geoObj = new ymaps.GeoObject();
+      $.Disposable.prototype._isIEventManager.sample = geoObj.events;
+    };
+
+    return this._interfaceMatch(obj, $.Disposable.prototype._isIEventManager.sample);
   };
 
   /**
