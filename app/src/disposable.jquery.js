@@ -210,7 +210,7 @@
       return this.jQuery(elem).on.apply(this, rest);
     }
     // a BEM block
-    else if (elem.__constructor === BEM.prototype.__constructor) {
+    else if (elem instanceof BEM) {
       return this.BEM(elem).on.apply(this, rest);
     }
 
