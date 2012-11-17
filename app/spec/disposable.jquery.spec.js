@@ -366,47 +366,5 @@ describe('jQuery.Disposable', function() {
 		expect(d.ymaps).toHaveBeenCalled();
 		expect(callback.fn.calls.length).toEqual(2);
 	});
-
-	describe('Experimental functionality', function () {
-		it('should be able to make ajax requests', function () {
-			var ajax,
-				ajaxFail,
-				done = jasmine.createSpy('done'),
-				fail = jasmine.createSpy('fail'),
-				always = jasmine.createSpy('always');
-
-			runs(function () {
-				ajax = d.ajax('/spec/fixtures/ajax.json').done(done).fail(fail).always(always);
-				ajaxFail = d.ajax('/spec/fixtures/404.json').done(done).fail(fail).always(always);
-			});
-
-			waitsFor(function () {
-				return ajax.status === 200 && ajaxFail.status === 404;
-			}, 700);
-
-			runs(function () {
-				expect(done.calls.length).toEqual(1);
-				expect(fail.calls.length).toEqual(1);
-				expect(always.calls.length).toEqual(2);
-			});
-		});
-
-		it('should be able to dispose registered ajax requests', function () {
-			var done = jasmine.createSpy('done'),
-				fail = jasmine.createSpy('fail'),
-				always = jasmine.createSpy('always'),
-				ajax = d.ajax('/spec/fixtures/ajax.json').done(done).fail(fail).always(always);
-
-			spyOn(ajax, 'abort').andCallThrough();
-
-			d.dispose();
-
-			expect(ajax.abort).toHaveBeenCalled();
-
-			expect(done.calls.length).toEqual(0);
-			expect(fail.calls.length).toEqual(1);
-			expect(always.calls.length).toEqual(1);
-		});
-	});
 });
 

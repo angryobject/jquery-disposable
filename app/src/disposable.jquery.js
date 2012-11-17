@@ -18,10 +18,6 @@
 
     // Ymaps events to be disposed
     this._ymaps = [];
-
-    // jqXHRs to be disposed
-    // experimental
-    this._ajaxes = [];
   };
 
   /**
@@ -220,8 +216,6 @@
     this._disposeJQuery();
     this._disposeBEM();
     this._disposeYmaps();
-    // Experimental
-    this._disposeAjax();
   };
 
   /**
@@ -242,48 +236,6 @@
     else if (this._isIEventManager(elem.events)) {
       this.ymaps(elem).on.apply(this, rest);
     }
-  };
-
-  // ################################
-  // Experimental functionality below
-  // ################################
-
-  // Since jQuery.ajax returns a jqXHR object, which implements Promise interface,
-  // make a separate functionality for dealing with promises and put ajax on top of it.
-
-  /**
-   * Performes an ajax request that can be disposed
-   * Acceps the same parameters as jQuery.ajax or a jqHXR object
-   * Returns a jqXHR object
-   */
-  $.Disposable.prototype.ajax = function (jqXHR) {
-    if (!this._isJqXHR(jqXHR)) {
-      jqXHR = $.ajax.apply(null, arguments);
-    }
-
-    this._ajaxes.push(jqXHR);
-
-    return jqXHR;
-  };
-
-  /**
-   * Disposes all registered jqXHRs
-   */
-  $.Disposable.prototype._disposeAjax = function () {
-    while (this._ajaxes.length) {
-      this._ajaxes.pop().abort();
-    }
-  };
-
-  /**
-   * Checks whether given object is a jqXHR object
-   */
-  $.Disposable.prototype._isJqXHR = function (obj) {
-    if (!$.Disposable.prototype._isJqXHR.sample) {
-      $.Disposable.prototype._isJqXHR.sample = $.ajax();
-    };
-
-    return this._interfaceMatch(obj, $.Disposable.prototype._isJqXHR.sample);
   };
 
   /**
