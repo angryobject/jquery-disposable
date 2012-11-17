@@ -229,7 +229,7 @@ describe('jQuery.Disposable', function() {
 		spyOn(callback, 'fn');
 		spyOn(d, 'jQuery').andCallThrough();
 
-  	d.jQuery(jqObj).on('click', callback.fn);
+  	d.on(jqObj, 'click', callback.fn);
 
   	jqObj.trigger('click');
   	jqObj.trigger('click');
@@ -251,7 +251,7 @@ describe('jQuery.Disposable', function() {
 		spyOn(d, 'BEM').andCallThrough();
 
 
-		d.BEM(bemBlock).on('click', callback.fn);
+		d.on(bemBlock, 'click', callback.fn);
 
 		bemBlock.trigger('click');
 		bemBlock.trigger('click');
