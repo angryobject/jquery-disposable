@@ -389,65 +389,70 @@ describe('jQuery.Disposable', function() {
    * Disposable.on
    */
 	describe('On helper module', function () {
-		it('should be able to attach events to jQuery objects using "on" method', function () {
+		it('should be able to attach events to jQuery objects using "on" method and preserve chaining', function () {
 			var jqObj = $('<div>'),
-				callback = {
-					fn: function () {}
-				};
+				callback = jasmine.createSpy('callback');
 
-			spyOn(callback, 'fn');
 			spyOn(d, 'jQuery').andCallThrough();
 
-	  	d.on(jqObj, 'click', callback.fn);
+	  	d.on(jqObj, 'click', callback).on('someEvt', callback);
 
-	  	jqObj.trigger('click');
-	  	jqObj.trigger('click');
+	  	jqObj.trigger('click').trigger('someEvt');
 
 	  	expect(d.jQuery).toHaveBeenCalled();
-			expect(callback.fn.calls.length).toEqual(2);
+			expect(callback.calls.length).toEqual(2);
+
+			d.dispose();
+
+			jqObj.trigger('click').trigger('someEvt');
+
+			expect(callback.calls.length).toEqual(2);
 		});
 
-		it('should be able to attach events to BEM blocks using "on" method', function () {
+		it('should be able to attach events to BEM blocks using "on" method and preserve chaining', function () {
 			var bemBlock,
-				callback = {
-					fn: function () {}
-				};
+				callback = jasmine.createSpy('callback');
 
 			BEM.decl('block');
 			bemBlock = BEM.create('block');
 
-			spyOn(callback, 'fn');
 			spyOn(d, 'BEM').andCallThrough();
 
+			d.on(bemBlock, 'click', callback).on('someEvt', callback);
 
-			d.on(bemBlock, 'click', callback.fn);
-
-			bemBlock.trigger('click');
-			bemBlock.trigger('click');
+			bemBlock.trigger('click').trigger('someEvt');
 
 			expect(d.BEM).toHaveBeenCalled();
-			expect(callback.fn.calls.length).toEqual(2);
+			expect(callback.calls.length).toEqual(2);
+
+			d.dispose();
+
+			bemBlock.trigger('click').trigger('someEvt');
+
+			expect(callback.calls.length).toEqual(2);
 		});
 
-		it('should be able to attach events to ymaps objects using "on" method', function () {
+		it('should be able to attach events to ymaps objects using "on" method and preserve chaining', function () {
 			var ymapsObj = new ymaps.GeoObject({
 			  type: 'Point',
 			  coordinates: [55.8, 37.8]
 			}),
-				callback = {
-					fn: function () {}
-				};
+				callback = jasmine.createSpy('callback');
 
-			spyOn(callback, 'fn');
 			spyOn(d, 'ymaps').andCallThrough();
 
-			d.on(ymapsObj, 'click', callback.fn);
+			d.on(ymapsObj, 'click', callback).on('someEvt', callback);
 
-			ymapsObj.events.fire('click');
-			ymapsObj.events.fire('click');
+			ymapsObj.events.fire('click').fire('someEvt');
 
 			expect(d.ymaps).toHaveBeenCalled();
-			expect(callback.fn.calls.length).toEqual(2);
+			expect(callback.calls.length).toEqual(2);
+
+			d.dispose();
+
+			ymapsObj.events.fire('click').fire('someEvt');
+
+			expect(callback.calls.length).toEqual(2);
 		});
 	});
 
