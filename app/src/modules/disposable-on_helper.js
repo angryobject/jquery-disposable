@@ -46,7 +46,8 @@
     }
     // a ymaps object
     else if (this.ymaps && isIEventManager(elem.events)) {
-      this.ymaps(elem).on.apply(this, rest);
+      wrap = this.ymaps(elem);
+      return wrap.on.apply(wrap, rest);
     }
   };
 
