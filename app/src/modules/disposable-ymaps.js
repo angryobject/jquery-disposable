@@ -9,7 +9,7 @@
 
   /**
    * Attaches events to the ymaps object
-   * Returns the ymaps object
+   * Returns itself for further chaining
    */
   YmapsDisposable.prototype.on = function (types, callback, context) {
     var args = [ types, callback ];
@@ -23,7 +23,7 @@
 
     this.elem.events.add(types, callback, context);
 
-    return this.elem;
+    return this;
   }
 
 	/**

@@ -363,6 +363,26 @@ describe('jQuery.Disposable', function() {
 			expect(data).toEqual(undefined);
 			expect(ctx).toEqual(undefined);
 		});
+
+    it('should allow chainable attaching of disposable events', function () {
+      var ymapsObj = new ymaps.GeoObject({
+        type: 'Point',
+        coordinates: [55.8, 37.8]
+      }),
+        callback = jasmine.createSpy('callback');
+
+      d.ymaps(ymapsObj).on('click', callback).on('someEvt', callback);
+
+      ymapsObj.events.fire('click').fire('someEvt');
+
+      expect(callback.calls.length).toEqual(2);
+
+      d.dispose();
+
+      ymapsObj.events.fire('click').fire('someEvt');
+
+      expect(callback.calls.length).toEqual(2);
+    });
   });
 
 	/**
