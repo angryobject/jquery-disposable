@@ -41,7 +41,8 @@
     }
     // a BEM block
     else if (elem instanceof BEM && this.BEM) {
-      return this.BEM(elem).on.apply(this, rest);
+      wrap = this.BEM(elem);
+      return wrap.on.apply(wrap, rest);
     }
     // a ymaps object
     else if (this.ymaps && isIEventManager(elem.events)) {
