@@ -31,11 +31,13 @@
    * Alias function for attaching event callbacks
    */
   $.Disposable.prototype.on = function (elem) {
-    var rest = Array.prototype.slice.call(arguments, 1);
+    var rest = Array.prototype.slice.call(arguments, 1),
+      wrap;
 
     // a jQuery object
     if (elem instanceof $ && this.jQuery) {
-      return this.jQuery(elem).on.apply(this, rest);
+      wrap = this.jQuery(elem);
+      return wrap.on.apply(wrap, rest);
     }
     // a BEM block
     else if (elem instanceof BEM && this.BEM) {
