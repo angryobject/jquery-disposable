@@ -9,7 +9,7 @@
 
   /**
    * Attaches events to the jQuery object
-   * Returns the jQuery object
+   * Returns itself for further chaining
    */
   JQDisposable.prototype.on = function (types, selector, data, fn) {
     // Later on dispose we need to unbind this event(s) with $.fn.off method,
@@ -41,7 +41,7 @@
 
     $.fn.on.apply(this.elem, arguments);
 
-    return this.elem;
+    return this;
   }
 
   /**

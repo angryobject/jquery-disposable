@@ -142,6 +142,24 @@ describe('jQuery.Disposable', function() {
 
 			expect(data).toEqual(undefined);
 		});
+
+		it('should allow chainable attaching of disposable events', function () {
+			var jqObj = $('<div>'),
+				callback = jasmine.createSpy('callback');
+
+	  	d.jQuery(jqObj).on('click', callback)
+	  		.on('someEvt', callback);
+
+	  	jqObj.trigger('click').trigger('someEvt');
+
+	  	expect(callback.calls.length).toEqual(2);
+
+	  	d.dispose();
+
+	  	jqObj.trigger('click').trigger('someEvt');
+
+	  	expect(callback.calls.length).toEqual(2);
+		});
 	});
 
 	/**
