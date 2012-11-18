@@ -251,6 +251,27 @@ describe('jQuery.Disposable', function() {
 			expect(data).toEqual(undefined);
 			expect(ctx).toEqual(undefined);
 		});
+
+    it('should allow chainable attaching of disposable events', function () {
+      var bemBlock,
+        callback = jasmine.createSpy('callback');
+
+      BEM.decl('block');
+      bemBlock = BEM.create('block');
+
+      d.BEM(bemBlock).on('click', callback)
+        .on('someEvt', callback);
+
+      bemBlock.trigger('click').trigger('someEvt');
+
+      expect(callback.calls.length).toEqual(2);
+
+      d.dispose();
+
+      bemBlock.trigger('click').trigger('someEvt');
+
+      expect(callback.calls.length).toEqual(2);
+    });
   });
 
 	/**

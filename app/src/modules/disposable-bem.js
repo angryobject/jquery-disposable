@@ -9,7 +9,7 @@
 
   /**
    * Attaches events to the BEM block
-   * Returns the BEM block
+   * Returns itself for further chaining
    */
   BEMDisposable.prototype.on = function (e, data, fn, ctx) {
     // Later on dispose we need to unbind this event(s) with BEM.un method,
@@ -40,7 +40,7 @@
 
     BEM.on.apply(this.elem, arguments);
 
-    return this.elem;
+    return this;
   }
 
   /**
