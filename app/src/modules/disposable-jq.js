@@ -55,7 +55,7 @@
   /**
    * Register module
    */
-  Disposable.mods.push({
+  Disposable.modules.push({
 
     // Adds member properties
     constructor: function () {

@@ -11,7 +11,7 @@
   };
 
   // Contains information about modules
-  $.Disposable.mods = [];
+  $.Disposable.modules = [];
 
   /**
    * Adds member properties
@@ -20,7 +20,7 @@
     var that = this;
 
     // Call constructor in modules
-    $.each($.Disposable.mods, function (i, mod) {
+    $.each($.Disposable.modules, function (i, mod) {
       mod.constructor && mod.constructor.call(that);
     });
   };
@@ -32,7 +32,7 @@
     var that = this;
 
     // Call dispose in modules
-    $.each($.Disposable.mods, function (i, mod) {
+    $.each($.Disposable.modules, function (i, mod) {
       mod.dispose && mod.dispose.call(that);
     });
   };
