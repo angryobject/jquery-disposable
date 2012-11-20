@@ -12,13 +12,9 @@
    * Returns itself for further chaining
    */
   YmapsDisposable.prototype.on = function (types, callback, context) {
-    var args = [ types, callback ];
-
-    if (context) args.push(context);
-
     this.disposable._ymaps.push({
       context: this.elem.events,
-      args: args
+      args: arguments
     });
 
     this.elem.events.add(types, callback, context);
