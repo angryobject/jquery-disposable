@@ -8,7 +8,7 @@
       isDisposed: false,
       callback: function () {
         if (host.isDisposed) return;
-        return fn.apply(ctx ? ctx : this, arguments);
+        return fn.apply(ctx || this, arguments);
       }
     };
 
