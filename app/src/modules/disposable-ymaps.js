@@ -26,7 +26,7 @@
     return this;
   }
 
-	/**
+  /**
    * A ymaps object wrapper
    * Returns interface for attaching events to the wrapped object
    */
@@ -37,24 +37,24 @@
   /**
    * Register module
    */
-	Disposable.mods.push({
+  Disposable.mods.push({
 
-		// Adds member properties
-		constructor: function () {
-			// Ymaps events to be disposed
-    	this._ymaps = [];
-		},
+    // Adds member properties
+    constructor: function () {
+      // Ymaps events to be disposed
+      this._ymaps = [];
+    },
 
-		// Disposes all registered ymaps events
-		dispose: function () {
-	    var host;
+    // Disposes all registered ymaps events
+    dispose: function () {
+      var host;
 
-	    while (this._ymaps.length) {
-	      host = this._ymaps.pop();
-	      host.context.remove.apply(host.context, host.args);
-	    }
-  	}
+      while (this._ymaps.length) {
+        host = this._ymaps.pop();
+        host.context.remove.apply(host.context, host.args);
+      }
+    }
 
-	});
+  });
 
 }(jQuery, jQuery.Disposable));

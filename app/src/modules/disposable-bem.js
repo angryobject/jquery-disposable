@@ -2,7 +2,7 @@
   /**
    * Creates a BEM block wrapper
    */
-	var BEMDisposable = function (elem, disposable) {
+  var BEMDisposable = function (elem, disposable) {
     this.elem = elem;
     this.disposable = disposable;
   }
@@ -51,27 +51,27 @@
     return new BEMDisposable(elem, this);
   };
 
-	/**
+  /**
    * Register module
    */
-	Disposable.mods.push({
+  Disposable.mods.push({
 
-		// Adds member properties
-		constructor: function () {
-			// BEM events to be disposed
-    	this._bems = [];
-		},
+    // Adds member properties
+    constructor: function () {
+      // BEM events to be disposed
+      this._bems = [];
+    },
 
-		// Disposes all registered BEM events
-		dispose: function () {
-	    var host;
+    // Disposes all registered BEM events
+    dispose: function () {
+      var host;
 
-	    while (this._bems.length) {
-	      host = this._bems.pop();
-	      BEM.un.apply(host.context, host.args);
-	    }
-  	}
+      while (this._bems.length) {
+        host = this._bems.pop();
+        BEM.un.apply(host.context, host.args);
+      }
+    }
 
-	});
+  });
 
 }(jQuery, jQuery.Disposable));
