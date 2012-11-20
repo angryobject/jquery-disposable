@@ -5,7 +5,10 @@
   var BEMDisposable = function (elem, disposable) {
     this.elem = elem;
     this.disposable = disposable;
-  }
+  },
+
+  // Save reference to slice method
+  __slice = Array.prototype.slice;
 
   /**
    * Attaches events to the BEM block
@@ -16,22 +19,8 @@
     // wich doesn't accept data parameter, so we need to filter through arguments below.
 
     // Array of arguments to be passed to BEM.un on dispose
-    var args = [ e ];
-
-    // Building array of arguments, filtering out the data param if present
-    if (fn == null && ctx == null) {
-      args.push(data);
-    } else if (ctx == null) {
-      if ($.isFunction(fn)) {
-        args.push(fn)
-      } else {
-        args.push(data);
-        args.push(fn);
-      }
-    } else {
-      args.push(fn);
-      args.push(ctx);
-    }
+    var args = [].concat(arguments[0],
+      __slice.call(arguments, typeof arguments[1] === 'object' ? 2 : 1));
 
     this.disposable._bems.push({
       context: this.elem,
