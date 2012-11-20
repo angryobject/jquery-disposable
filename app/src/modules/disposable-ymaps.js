@@ -5,7 +5,7 @@
   var YmapsDisposable = function (elem, disposable) {
     this.elem = elem;
     this.disposable = disposable;
-  }
+  };
 
   /**
    * Attaches events to the ymaps object
@@ -20,7 +20,7 @@
     this.elem.events.add(types, callback, context);
 
     return this;
-  }
+  };
 
   /**
    * A ymaps object wrapper

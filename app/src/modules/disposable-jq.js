@@ -5,7 +5,7 @@
   var JQDisposable = function (elem, disposable) {
     this.elem = elem;
     this.disposable = disposable;
-  }
+  };
 
   /**
    * Attaches events to the jQuery object
@@ -42,7 +42,7 @@
     $.fn.on.apply(this.elem, arguments);
 
     return this;
-  }
+  };
 
   /**
    * A jQuery object wrapper

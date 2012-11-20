@@ -30,7 +30,7 @@
     BEM.on.apply(this.elem, arguments);
 
     return this;
-  }
+  };
 
   /**
    * A BEM block wrapper
