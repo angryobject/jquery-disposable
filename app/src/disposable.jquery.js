@@ -22,8 +22,8 @@
     this._disposed = false;
 
     // Call constructor in modules
-    $.each($.Disposable.modules, function (i, mod) {
-      mod.constructor && mod.constructor.call(that);
+    $.each($.Disposable.modules, function (i, module) {
+      module.constructor && module.constructor.call(that);
     });
   };
 
@@ -36,8 +36,8 @@
     this._disposed = true;
 
     // Call dispose in modules
-    $.each($.Disposable.modules, function (i, mod) {
-      mod.dispose && mod.dispose.call(that);
+    $.each($.Disposable.modules, function (i, module) {
+      module.dispose && module.dispose.call(that);
     });
   };
 
