@@ -1,11 +1,10 @@
-(function ($, Disposable, undefined) {
+(function ($, BEM, ymaps, Disposable, undefined) {
   /**
    * Checks whether given object implements IEventManager interface
    */
   var isIEventManager = function (obj) {
     if (!isIEventManager.sample) {
-      var geoObj = new ymaps.GeoObject();
-      isIEventManager.sample = geoObj.events;
+      isIEventManager.sample = new ymaps.GeoObject().events;
     };
 
     return interfaceMatch(obj, isIEventManager.sample);
@@ -30,19 +29,19 @@
   /**
    * Alias function for attaching event callbacks
    */
-  $.Disposable.prototype.on = function (elem) {
+  Disposable.prototype.on = function (elem) {
     if (this._disposed) return false;
 
     var rest = Array.prototype.slice.call(arguments, 1),
       wrap;
 
     // a jQuery object
-    if (elem instanceof $ && this.jQuery) {
+    if (this.jQuery && elem instanceof $) {
       wrap = this.jQuery(elem);
       return wrap.on.apply(wrap, rest);
     }
     // a BEM block
-    else if (elem instanceof BEM && this.BEM) {
+    else if (this.BEM && elem instanceof BEM) {
       wrap = this.BEM(elem);
       return wrap.on.apply(wrap, rest);
     }
@@ -53,4 +52,4 @@
     }
   };
 
-}(jQuery, jQuery.Disposable));
+}(jQuery, BEM, ymaps, jQuery.Disposable));
