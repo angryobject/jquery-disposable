@@ -37,7 +37,7 @@
    * Returns interface for attaching events to the wrapped object
    */
   $.Disposable.prototype.BEM = function (elem) {
-    return new BEMDisposable(elem, this);
+    return !this._disposed && new BEMDisposable(elem, this);
   };
 
   /**

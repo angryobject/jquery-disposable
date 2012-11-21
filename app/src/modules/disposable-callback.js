@@ -4,39 +4,12 @@
    * Returns a new function that can be disposed
    */
   $.Disposable.prototype.callback = function (fn, ctx) {
-    var host = {
-      isDisposed: false,
-      callback: function () {
-        if (host.isDisposed) return;
-        return fn.apply(ctx || this, arguments);
-      }
-    };
+    var that = this;
 
-    this._callbacks.push(host);
-
-    return host.callback;
-  };
-
-  /**
-   * Register module
-   */
-  Disposable.modules.push({
-
-    // Adds member properties
-    constructor: function () {
-      // Callback functions to be disposed
-      this._callbacks = [];
-    },
-
-    // Disposes all registered callbacks
-    dispose: function () {
-      var host;
-
-      while (this._callbacks.length) {
-        this._callbacks.pop().isDisposed = true;
-      }
+    return !this._disposed && function () {
+      if (that._disposed) return;
+      return fn.apply(ctx || this, arguments);
     }
-
-  });
+  };
 
 }(jQuery, jQuery.Disposable));

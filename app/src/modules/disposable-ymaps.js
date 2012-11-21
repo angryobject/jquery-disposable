@@ -27,7 +27,7 @@
    * Returns interface for attaching events to the wrapped object
    */
   $.Disposable.prototype.ymaps = function (elem) {
-    return new YmapsDisposable(elem, this);
+    return !this._disposed && new YmapsDisposable(elem, this);
   };
 
   /**

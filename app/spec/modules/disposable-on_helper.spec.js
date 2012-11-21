@@ -75,4 +75,23 @@ describe('On helper module', function () {
     expect(callback.calls.length).toEqual(2);
   });
 
+  it('should not run after dispose', function () {
+    var jqObj = $('<div>'),
+      bemBlock,
+      ymapsObj = new ymaps.GeoObject({
+        type: 'Point',
+        coordinates: [55.8, 37.8]
+      }),
+      callback = jasmine.createSpy('callback');
+
+    BEM.decl('block');
+    bemBlock = BEM.create('block');
+
+    d.dispose();
+
+    expect(d.on(jqObj, 'click', callback)).toEqual(false);
+    expect(d.on(bemBlock, 'click', callback)).toEqual(false);
+    expect(d.on(ymapsObj, 'click', callback)).toEqual(false);
+  });
+
 });

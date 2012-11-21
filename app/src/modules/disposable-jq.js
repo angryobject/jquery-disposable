@@ -49,7 +49,7 @@
    * Returns interface for attaching events to the wrapped object
    */
   Disposable.prototype.jQuery = function (elem) {
-    return new JQDisposable(elem, this);
+    return !this._disposed && new JQDisposable(elem, this);
   };
 
   /**

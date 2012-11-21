@@ -82,6 +82,8 @@ describe('Ymaps module', function () {
     expect(data).toEqual(undefined);
     expect(ctx).toEqual(undefined);
 
+    d = jQuery.Disposable();
+
     d.ymaps(ymapsObj).on('someThirdEvt', function (e) {
       data = e;
       ctx = this;
@@ -113,6 +115,16 @@ describe('Ymaps module', function () {
     ymapsObj.events.fire('click').fire('someEvt');
 
     expect(callback.calls.length).toEqual(2);
+  });
+
+  it('should not run after dispose', function () {
+    var ymapsObj = new ymaps.GeoObject({
+      type: 'Point',
+      coordinates: [55.8, 37.8]
+    });
+
+    d.dispose();
+    expect(d.ymaps(ymapsObj)).toEqual(false);
   });
 
 });

@@ -31,6 +31,8 @@
    * Alias function for attaching event callbacks
    */
   $.Disposable.prototype.on = function (elem) {
+    if (this._disposed) return false;
+
     var rest = Array.prototype.slice.call(arguments, 1),
       wrap;
 

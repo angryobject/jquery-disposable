@@ -82,6 +82,8 @@ describe('BEM module', function () {
     expect(data).toEqual(undefined);
     expect(ctx).toEqual(undefined);
 
+    d = jQuery.Disposable();
+
     d.BEM(bemBlock).on('someThirdEvt', {foo:'baz'}, function (e, d) {
       data = e.data;
       ctx = this;
@@ -114,6 +116,16 @@ describe('BEM module', function () {
     bemBlock.trigger('click').trigger('someEvt');
 
     expect(callback.calls.length).toEqual(2);
+  });
+
+  it('should not run after dispose', function () {
+    var bemBlock;
+
+    BEM.decl('block');
+    bemBlock = BEM.create('block');
+
+    d.dispose();
+    expect(d.BEM(bemBlock)).toEqual(false);
   });
 
 });

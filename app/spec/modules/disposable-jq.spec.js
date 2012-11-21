@@ -68,6 +68,8 @@ describe('jQuery module', function () {
     expect(callback.fn.calls.length).toEqual(0);
     expect(data).toEqual(undefined);
 
+    d = jQuery.Disposable();
+
     d.jQuery(jqObj).on('someOtherEvt', 'span', {foo: 'baz'}, function (e) {
       data = e.data;
     });
@@ -95,6 +97,13 @@ describe('jQuery module', function () {
     jqObj.trigger('click').trigger('someEvt');
 
     expect(callback.calls.length).toEqual(2);
+  });
+
+  it('should not run after dispose', function () {
+    var jqObj = $('<div>');
+
+    d.dispose();
+    expect(d.jQuery(jqObj)).toEqual(false);
   });
 
 });

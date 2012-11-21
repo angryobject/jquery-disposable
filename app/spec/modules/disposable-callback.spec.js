@@ -63,4 +63,9 @@ describe('Callback module', function () {
     expect(dCallback()).toEqual(undefined);
   });
 
+  it('should not run after dispose', function () {
+    d.dispose();
+    expect(d.callback(function () {})).toEqual(false);
+  });
+
 });
