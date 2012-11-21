@@ -1,14 +1,11 @@
-(function ($, Disposable, undefined) {
+(function (Disposable, BEM, undefined) {
   /**
    * Creates a BEM block wrapper
    */
   var BemDisposable = function (elem, disposable) {
     this.elem = elem;
     this.disposable = disposable;
-  },
-
-  // Save reference to slice method
-  __slice = Array.prototype.slice;
+  };
 
   /**
    * Attaches events to the BEM block
@@ -20,7 +17,7 @@
 
     // Array of arguments to be passed to BEM.un on dispose
     var args = [].concat(arguments[0],
-      __slice.call(arguments, typeof arguments[1] === 'object' ? 2 : 1));
+      Array.prototype.slice.call(arguments, typeof arguments[1] === 'object' ? 2 : 1));
 
     this.disposable._bems.push({
       context: this.elem,
@@ -36,7 +33,7 @@
    * A BEM block wrapper
    * Returns interface for attaching events to the wrapped object
    */
-  $.Disposable.prototype.BEM = function (elem) {
+  Disposable.prototype.BEM = function (elem) {
     return !this._disposed && new BemDisposable(elem, this);
   };
 
@@ -63,4 +60,4 @@
 
   });
 
-}(jQuery, jQuery.Disposable));
+}(jQuery.Disposable, BEM));
