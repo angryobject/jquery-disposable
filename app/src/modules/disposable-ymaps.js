@@ -1,4 +1,4 @@
-(function ($, Disposable, undefined) {
+(function (Disposable, undefined) {
   /**
    * Creates a ymaps object wrapper
    */
@@ -11,13 +11,15 @@
    * Attaches events to the ymaps object
    * Returns itself for further chaining
    */
-  YmapsDisposable.prototype.on = function (types, callback, context) {
+  YmapsDisposable.prototype.on = function () {
+    var events = this.elem.events;
+
     this.disposable._ymaps.push({
-      context: this.elem.events,
+      context: events,
       args: arguments
     });
 
-    this.elem.events.add(types, callback, context);
+    events.add.apply(events, arguments);
 
     return this;
   };
@@ -26,7 +28,7 @@
    * A ymaps object wrapper
    * Returns interface for attaching events to the wrapped object
    */
-  $.Disposable.prototype.ymaps = function (elem) {
+  Disposable.prototype.ymaps = function (elem) {
     return !this._disposed && new YmapsDisposable(elem, this);
   };
 
@@ -53,4 +55,4 @@
 
   });
 
-}(jQuery, jQuery.Disposable));
+}(jQuery.Disposable));
