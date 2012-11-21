@@ -20,18 +20,14 @@
 
     // Building array of arguments, filtering out the data param if present
     if (typeof types === "object") {
-      if (typeof selector === "string") {
-        args.push(selector);
-      }
-    } else if ( data == null && fn == null ) {
+      typeof selector === "string" && args.push(selector);
+    } else if ( typeof selector === 'function' ) {
       args.push(selector);
-    } else if (fn == null) {
-      if ( typeof selector === "string" ) {
-        args.push(selector);
-      }
+    } else if (typeof data === 'function' ) {
+      typeof selector === "string" && args.push(selector);
       args.push(data);
     } else {
-      args.push(fn);
+      args.push(selector, fn);
     }
 
     this.disposable._jQueries.push({
