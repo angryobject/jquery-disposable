@@ -3,8 +3,8 @@
    * Creates a jQuery object wrapper
    */
   var Class = function (elem, disposable) {
-    this.elem = elem;
-    this.disposable = disposable;
+    this._elem = elem;
+    this._disposable = disposable;
   };
 
   /**
@@ -30,12 +30,12 @@
       args.push(selector, fn);
     }
 
-    this.disposable._jQueries.push({
-      context: this.elem,
+    this._disposable._jQueries.push({
+      context: this._elem,
       args: args
     });
 
-    $.fn.on.apply(this.elem, arguments);
+    $.fn.on.apply(this._elem, arguments);
 
     return this;
   };

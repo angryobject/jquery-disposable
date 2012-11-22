@@ -3,8 +3,8 @@
    * Creates a ymaps object wrapper
    */
   var Class = function (elem, disposable) {
-    this.elem = elem;
-    this.disposable = disposable;
+    this._elem = elem;
+    this._disposable = disposable;
   };
 
   /**
@@ -12,9 +12,9 @@
    * Returns itself for further chaining
    */
   Class.prototype.on = function () {
-    var events = this.elem.events;
+    var events = this._elem.events;
 
-    this.disposable._ymaps.push({
+    this._disposable._ymaps.push({
       context: events,
       args: arguments
     });

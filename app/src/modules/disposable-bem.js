@@ -3,8 +3,8 @@
    * Creates a BEM block wrapper
    */
   var Class = function (elem, disposable) {
-    this.elem = elem;
-    this.disposable = disposable;
+    this._elem = elem;
+    this._disposable = disposable;
   };
 
   /**
@@ -19,12 +19,12 @@
     var args = [].concat(arguments[0],
       Array.prototype.slice.call(arguments, typeof arguments[1] === 'object' ? 2 : 1));
 
-    this.disposable._bems.push({
-      context: this.elem,
+    this._disposable._bems.push({
+      context: this._elem,
       args: args
     });
 
-    BEM.on.apply(this.elem, arguments);
+    BEM.on.apply(this._elem, arguments);
 
     return this;
   };
