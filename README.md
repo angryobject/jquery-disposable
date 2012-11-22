@@ -9,21 +9,19 @@ $.Disposable allows you to easilly detach any events and "emptify" callback func
 	var d = $.Disposable();
 
 	// add a jQuery event listener
-	d.jQuery(aJQueryObject).on('click', function clickHandler () {
+	d.jQuery(aJQueryObject).on('click', function () {
 	  // do something
 	});
 	
 	// make an ajax request
-	$.ajax('/some/url').done(d.callback(function dataParser () {
+	$.ajax('/some/url').done(d.callback(function () {
 	  // parse data
 	}));
 	
 	// calling the dispose method
 	// makes attached event listeners to be of
-	// and the done function to simply do nothint
+	// and the done function to simply do nothing
 	d.dispose();
-
-
 
 ##Usage
 
@@ -37,6 +35,7 @@ Plugin is packed with 4 modules:
 In the examples below suppose `d = $.Disposable()`.
 
 ###Callback module
+
 The Callback module allows to create a disposable function, that can change it's behavior based upon the status of the $.Disposable object, i.e. when the object is disposed - the function will do nothing.
 
 **Usage:**
