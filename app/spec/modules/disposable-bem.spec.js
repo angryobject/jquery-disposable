@@ -22,11 +22,11 @@ describe('BEM module', function () {
 
     spyOn(callback, 'fn');
 
-    d.BEM(bemBlock).on('click', callback.fn);
-    d.BEM(bemBlock).on('someEvt', {foo: 'bar'}, function (e) {
+    d.bem(bemBlock).on('click', callback.fn);
+    d.bem(bemBlock).on('someEvt', {foo: 'bar'}, function (e) {
       data = e.data;
     });
-    d.BEM(bemBlock).on('someOtherEvt', function (e) {
+    d.bem(bemBlock).on('someOtherEvt', function (e) {
       ctx = this;
     }, {foo: 'bar'});
 
@@ -39,7 +39,7 @@ describe('BEM module', function () {
     expect(data.foo).toEqual('bar');
     expect(ctx.foo).toEqual('bar');
 
-    d.BEM(bemBlock).on('someThirdEvt', {foo:'baz'}, function (e, d) {
+    d.bem(bemBlock).on('someThirdEvt', {foo:'baz'}, function (e, d) {
       data = e.data;
       ctx = this;
     }, {foo: 'qux'});
@@ -63,11 +63,11 @@ describe('BEM module', function () {
 
     spyOn(callback, 'fn');
 
-    d.BEM(bemBlock).on('click', callback.fn);
-    d.BEM(bemBlock).on('someEvt', {foo: 'bar'}, function (e) {
+    d.bem(bemBlock).on('click', callback.fn);
+    d.bem(bemBlock).on('someEvt', {foo: 'bar'}, function (e) {
       data = e.data;
     });
-    d.BEM(bemBlock).on('someOtherEvt', function (e) {
+    d.bem(bemBlock).on('someOtherEvt', function (e) {
       ctx = this;
     }, {foo: 'bar'});
 
@@ -84,7 +84,7 @@ describe('BEM module', function () {
 
     d = jQuery.Disposable();
 
-    d.BEM(bemBlock).on('someThirdEvt', {foo:'baz'}, function (e, d) {
+    d.bem(bemBlock).on('someThirdEvt', {foo:'baz'}, function (e, d) {
       data = e.data;
       ctx = this;
     }, {foo: 'qux'});
@@ -104,7 +104,7 @@ describe('BEM module', function () {
     BEM.decl('block');
     bemBlock = BEM.create('block');
 
-    d.BEM(bemBlock).on('click', callback)
+    d.bem(bemBlock).on('click', callback)
       .on('someEvt', callback);
 
     bemBlock.trigger('click').trigger('someEvt');
@@ -125,7 +125,7 @@ describe('BEM module', function () {
     bemBlock = BEM.create('block');
 
     d.dispose();
-    expect(d.BEM(bemBlock)).toEqual(false);
+    expect(d.bem(bemBlock)).toEqual(false);
   });
 
 });

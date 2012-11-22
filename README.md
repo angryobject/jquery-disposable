@@ -12,12 +12,12 @@ $.Disposable allows you to easilly detach any events and "emptify" callback func
 	d.jQuery(aJQueryObject).on('click', function () {
 	  // do something
 	});
-	
+
 	// make an ajax request
 	$.ajax('/some/url').done(d.callback(function () {
 	  // parse data
 	}));
-	
+
 	// calling the dispose method
 	// makes attached event listeners to be of
 	// and the done function to simply do nothing
@@ -43,13 +43,13 @@ The Callback module allows to create a disposable function, that can change it's
 	var fn = d.callback(function () {
 		// do something
 	});
-	
+
 	fn(); // does something
-	
+
 	d.dispose();
-	
+
 	fn(); // does nothing
-	
+
 Also, you can pass the context, in which the function should be executed, as the second parameter to `d.callback`:
 
 	d.callback(function () {
@@ -67,17 +67,17 @@ The jQuery module allows to attach events to a jQuery objects and be able to tur
 	}).on('customEvt', function () {
 		// do something on custom event
 	});
-	
+
 	aJQueryObject.trigger('click'); // does something
 	aJQueryObject.trigger('customEvt'); // does something
-	
+
 	d.dispose();
-	
+
 	// The event handlers were detached.
 	aJQueryObject.trigger('click'); // does nothing
 	aJQueryObject.trigger('customEvt'); // does nothing
-	
-The `on` method supports all parameters that jQuery does.	
+
+The `on` method supports all parameters that jQuery does.
 
 ### BEM module
 
@@ -85,21 +85,21 @@ The BEM module allows to attach events to BEM block just as for jQuery objects a
 
 **Usage:**
 
-	d.BEM(aBemBlock).on('click', function () {
+	d.bem(aBemBlock).on('click', function () {
 		// do something on click
 	}).on('customEvt', function () {
 		// do something on custom event
 	});
-	
+
 	aBemBlock.trigger('click'); // does something
 	aBemBlock.trigger('customEvt'); // does something
-	
+
 	d.dispose();
-	
+
 	// The event handlers were detached.
 	aBemBlock.trigger('click'); // does nothing
 	aBemBlock.trigger('customEvt'); // does nothing
-	
+
 The `on` method supports all parameters that BEM does.
 
 ### Ymaps module
@@ -113,12 +113,12 @@ The Ymaps module allows to attach events to ymaps objects, again, just as for jQ
 	}).on('customEvt', function () {
 		// do something on custom event
 	});
-	
+
 	aYmapsObject.events.fire('click'); // does something
 	aYmapsObject.events.fire('customEvt'); // does something
-	
+
 	d.dispose();
-	
+
 	// The event handlers were detached.
 	aYmapsObject.events.fire('click'); // does nothing
 	aYmapsObject.events.fire('customEvt'); // does nothing

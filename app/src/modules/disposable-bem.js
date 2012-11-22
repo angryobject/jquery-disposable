@@ -33,7 +33,7 @@
    * A BEM block wrapper
    * Returns interface for attaching events to the wrapped object
    */
-  Disposable.prototype.BEM = function (elem) {
+  Disposable.prototype.bem = function (elem) {
     return !this._disposed && new Class(elem, this);
   };
 
