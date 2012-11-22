@@ -2,7 +2,7 @@
   /**
    * Creates a jQuery object wrapper
    */
-  var JQueryDisposable = function (elem, disposable) {
+  var Class = function (elem, disposable) {
     this.elem = elem;
     this.disposable = disposable;
   };
@@ -11,7 +11,7 @@
    * Attaches events to the jQuery object
    * Returns itself for further chaining
    */
-  JQueryDisposable.prototype.on = function (types, selector, data, fn) {
+  Class.prototype.on = function (types, selector, data, fn) {
     // Later on dispose we need to unbind this event(s) with $.fn.off method,
     // wich doesn't accept data parameter, so we need to filter through arguments below.
 
@@ -45,7 +45,7 @@
    * Returns interface for attaching events to the wrapped object
    */
   Disposable.prototype.jQuery = function (elem) {
-    return !this._disposed && new JQueryDisposable(elem, this);
+    return !this._disposed && new Class(elem, this);
   };
 
   /**

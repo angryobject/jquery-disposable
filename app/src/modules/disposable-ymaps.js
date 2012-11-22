@@ -2,7 +2,7 @@
   /**
    * Creates a ymaps object wrapper
    */
-  var YmapsDisposable = function (elem, disposable) {
+  var Class = function (elem, disposable) {
     this.elem = elem;
     this.disposable = disposable;
   };
@@ -11,7 +11,7 @@
    * Attaches events to the ymaps object
    * Returns itself for further chaining
    */
-  YmapsDisposable.prototype.on = function () {
+  Class.prototype.on = function () {
     var events = this.elem.events;
 
     this.disposable._ymaps.push({
@@ -29,7 +29,7 @@
    * Returns interface for attaching events to the wrapped object
    */
   Disposable.prototype.ymaps = function (elem) {
-    return !this._disposed && new YmapsDisposable(elem, this);
+    return !this._disposed && new Class(elem, this);
   };
 
   /**

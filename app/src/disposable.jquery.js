@@ -2,27 +2,29 @@
   /**
    * Creates a new Disposable helper object
    */
-  $.Disposable = function () {
+  var Class = $.Disposable = function () {
     if ( !(this instanceof $.Disposable) )  {
       return new $.Disposable();
     }
 
     this.__constructor();
-  };
+  },
+
+  prt = Class.prototype;
 
   // Contains information about modules
-  $.Disposable.modules = [];
+  Class.modules = [];
 
   /**
    * Adds member properties
    */
-  $.Disposable.prototype.__constructor = function () {
+  prt.__constructor = function () {
     var that = this;
 
     this._disposed = false;
 
     // Call constructor in modules
-    $.each($.Disposable.modules, function (i, module) {
+    $.each(Class.modules, function (i, module) {
       module.constructor && module.constructor.call(that);
     });
   };
@@ -30,13 +32,13 @@
   /**
    * Disposes all registered callbacks and events
    */
-  $.Disposable.prototype.dispose = function () {
+  prt.dispose = function () {
     var that = this;
 
     this._disposed = true;
 
     // Call dispose in modules
-    $.each($.Disposable.modules, function (i, module) {
+    $.each(Class.modules, function (i, module) {
       module.dispose && module.dispose.call(that);
     });
   };
@@ -44,7 +46,7 @@
   /**
    * Whether the current instance is disposed
    */
-  $.Disposable.prototype.isDisposed = function () {
+  prt.isDisposed = function () {
     return this._disposed;
   };
 

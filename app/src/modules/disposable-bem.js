@@ -2,7 +2,7 @@
   /**
    * Creates a BEM block wrapper
    */
-  var BemDisposable = function (elem, disposable) {
+  var Class = function (elem, disposable) {
     this.elem = elem;
     this.disposable = disposable;
   };
@@ -11,7 +11,7 @@
    * Attaches events to the BEM block
    * Returns itself for further chaining
    */
-  BemDisposable.prototype.on = function (e, data, fn, ctx) {
+  Class.prototype.on = function (e, data, fn, ctx) {
     // Later on dispose we need to unbind this event(s) with BEM.un method,
     // wich doesn't accept data parameter, so we need to filter through arguments below.
 
@@ -34,7 +34,7 @@
    * Returns interface for attaching events to the wrapped object
    */
   Disposable.prototype.BEM = function (elem) {
-    return !this._disposed && new BemDisposable(elem, this);
+    return !this._disposed && new Class(elem, this);
   };
 
   /**
