@@ -16,8 +16,7 @@
     // wich doesn't accept data parameter, so we need to filter through arguments below.
 
     // Array of arguments to be passed to BEM.un on dispose
-    var args = [].concat(arguments[0],
-      Array.prototype.slice.call(arguments, typeof arguments[1] === 'object' ? 2 : 1));
+    var args = [e].concat([].slice.call(arguments, typeof data === 'function' ? 1 : 2));
 
     this._disposable._bems.push({
       context: this._elem,
