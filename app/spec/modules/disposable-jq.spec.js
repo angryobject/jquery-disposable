@@ -99,6 +99,20 @@ describe('jQuery module', function () {
     expect(callback.calls.length).toEqual(2);
   });
 
+  it('should accept a context for callback', function () {
+    var jqObj = $('<div>'),
+      ctx,
+      callback = function () {
+        ctx = this;
+      };
+
+    d.jQuery(jqObj).on('click', callback, {foo: 'bar'});
+
+    jqObj.trigger('click');
+
+    expect(ctx.foo).toEqual('bar');
+  });
+
   it('should not run after dispose and throw an error', function () {
     var jqObj = $('<div>');
 

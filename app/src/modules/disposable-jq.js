@@ -11,24 +11,25 @@
    * Attaches events to the jQuery object
    * Returns itself for further chaining
    */
-  Class.prototype.on = function (types, selector, data, fn) {
-    // Later on dispose we need to unbind this event(s) with $.fn.off method,
-    // wich doesn't accept data parameter, so we need to filter through arguments below.
+  Class.prototype.on = function (types, selector, data, fn, ctx) {
+    var args;
 
-    // Array of arguments to be passed to $.fn.off on dispose
-    var args = [ types ];
-
-    // Building array of arguments, filtering out the data param if present
-    if (typeof types === "object") {
-      typeof selector === "string" && args.push(selector);
-    } else if ( typeof selector === 'function' ) {
-      args.push(selector);
-    } else if (typeof data === 'function' ) {
-      typeof selector === "string" && args.push(selector);
-      args.push(data);
-    } else {
-      args.push(selector, fn);
+    // The context argument is allowed only if
+    // the types is passed as string, not an object
+    if (typeof types !== "object") {
+      // If we have context argument - bind callback to it
+      ctx = arguments[arguments.length - 1];
+      if (typeof ctx === 'object') {
+        arguments[arguments.length - 2] = $.proxy(arguments[arguments.length - 2], ctx);
+        arguments = [].slice.call(arguments, 0, -1);
+      }
     }
+
+    // Later on dispose we need to unbind this event(s) with $.fn.off method,
+    // wich doesn't accept data parameter, so we need to filter through arguments
+    args = [types].concat($.grep([].slice.call(arguments, 1), function (arg) {
+      return typeof arg !== 'object';
+    }));
 
     this._disposable._jQueries.push({
       context: this._elem,
