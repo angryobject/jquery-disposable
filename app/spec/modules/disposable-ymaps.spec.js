@@ -117,14 +117,16 @@ describe('Ymaps module', function () {
     expect(callback.calls.length).toEqual(2);
   });
 
-  it('should not run after dispose', function () {
+  it('should not run after dispose and throw an error', function () {
     var ymapsObj = new ymaps.GeoObject({
       type: 'Point',
       coordinates: [55.8, 37.8]
     });
 
     d.dispose();
-    expect(d.ymaps(ymapsObj)).toEqual(false);
+    expect(function () {
+      d.ymaps(ymapsObj)
+    }).toThrow();
   });
 
 });

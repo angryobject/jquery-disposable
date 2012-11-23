@@ -6,7 +6,11 @@
   Disposable.prototype.callback = function (fn, ctx) {
     var that = this;
 
-    return !this._disposed && function () {
+    if (this._disposed) {
+      throw new Error(Disposable.disposedErrMsg);
+    }
+
+    return function () {
       return that._disposed ?
         undefined : fn.apply(ctx || this, arguments);
     }

@@ -33,7 +33,11 @@
    * Returns interface for attaching events to the wrapped object
    */
   Disposable.prototype.bem = function (elem) {
-    return !this._disposed && new Class(elem, this);
+    if (this._disposed) {
+      throw new Error(Disposable.disposedErrMsg);
+    }
+
+    return new Class(elem, this);
   };
 
   /**

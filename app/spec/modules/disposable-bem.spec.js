@@ -118,14 +118,16 @@ describe('BEM module', function () {
     expect(callback.calls.length).toEqual(2);
   });
 
-  it('should not run after dispose', function () {
+  it('should not run after dispose and throw an error', function () {
     var bemBlock;
 
     BEM.decl('block');
     bemBlock = BEM.create('block');
 
     d.dispose();
-    expect(d.bem(bemBlock)).toEqual(false);
+    expect(function () {
+      d.bem(bemBlock)
+    }).toThrow();
   });
 
 });

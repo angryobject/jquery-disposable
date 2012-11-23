@@ -99,11 +99,13 @@ describe('jQuery module', function () {
     expect(callback.calls.length).toEqual(2);
   });
 
-  it('should not run after dispose', function () {
+  it('should not run after dispose and throw an error', function () {
     var jqObj = $('<div>');
 
     d.dispose();
-    expect(d.jQuery(jqObj)).toEqual(false);
+    expect(function () {
+      d.jQuery(jqObj)
+    }).toThrow();
   });
 
 });

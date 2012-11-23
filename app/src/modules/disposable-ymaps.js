@@ -27,7 +27,11 @@
    * Returns interface for attaching events to the wrapped object
    */
   Disposable.prototype.ymaps = function (elem) {
-    return !this._disposed && new Class(elem.events, this);
+    if (this._disposed) {
+      throw new Error(Disposable.disposedErrMsg);
+    }
+
+    return new Class(elem.events, this);
   };
 
   /**

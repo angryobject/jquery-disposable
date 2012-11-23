@@ -15,6 +15,9 @@
   // Contains information about modules
   Class.modules = [];
 
+  // Error message to throw if instance is allready disposed
+  Class.disposedErrMsg = 'Disposable object can be used only once.';
+
   /**
    * Adds member properties
    */
