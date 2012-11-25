@@ -34,6 +34,14 @@ Plugin is packed with 4 modules:
 
 In the examples below suppose `d = $.Disposable()`.
 
+Note, that the disposable object is ment to be used once. After you call the `dispose` method - you can't use it any more, and if you do - you'll get an error:
+	
+	d.dispose();
+	
+	// will throw an error
+	var fn = d.callback(function () {		
+	});
+
 ###Callback module
 
 The Callback module allows to create a disposable function, that can change it's behavior based upon the status of the $.Disposable object, i.e. when the object is disposed - the function will do nothing.
@@ -78,6 +86,14 @@ The jQuery module allows to attach events to a jQuery objects and be able to tur
 	aJQueryObject.trigger('customEvt'); // does nothing
 
 The `on` method supports all parameters that jQuery does.
+
+Also, you cat pass context for the callback as the last parameter:
+
+	d.jQUery(aJQueryObject).on('click', function () {
+		console.log(this); // {foo: 'bar'}
+	}, {foo: 'bar'});
+
+Note, that you can't use the context argument when passing a map of types/handlers as the first parameter.
 
 ### BEM module
 
