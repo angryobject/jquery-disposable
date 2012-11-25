@@ -122,4 +122,56 @@ describe('jQuery module', function () {
     }).toThrow();
   });
 
+  describe('.on method', function () {
+    it('passes correct parameters to jQuery.fn.on', function () {
+      var jqObj = $('<div>'),
+        callback = jasmine.createSpy(),
+        data = {foo:'bar'},
+        ctx = {baz: 'qux'},
+        evtMap = {
+          click: callback,
+          mousedown: callback
+        };
+
+      spyOn(jQuery.fn, 'on').andCallThrough();
+
+      d.jQuery(jqObj).on('click', callback);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('click', callback);
+
+      d.jQuery(jqObj).on('mousedown', 'span', callback);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('mousedown', 'span', callback);
+
+      d.jQuery(jqObj).on('click', data, callback);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('click', data, callback);
+
+      d.jQuery(jqObj).on('mousedown', 'span', data, callback);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('mousedown', 'span', data, callback);
+
+      d.jQuery(jqObj).on(evtMap);
+      expect(jQuery.fn.on).toHaveBeenCalledWith(evtMap);
+
+      d.jQuery(jqObj).on(evtMap, 'span');
+      expect(jQuery.fn.on).toHaveBeenCalledWith(evtMap, 'span');
+
+      d.jQuery(jqObj).on(evtMap, data);
+      expect(jQuery.fn.on).toHaveBeenCalledWith(evtMap, data);
+
+      d.jQuery(jqObj).on(evtMap, 'span', data);
+      expect(jQuery.fn.on).toHaveBeenCalledWith(evtMap, 'span', data);
+
+      // same when context is supplied
+      d.jQuery(jqObj).on('click', callback, ctx);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('click', callback);
+
+      d.jQuery(jqObj).on('mousedown', 'span', callback, ctx);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('mousedown', 'span', callback);
+
+      d.jQuery(jqObj).on('click', data, callback, ctx);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('click', data, callback);
+
+      d.jQuery(jqObj).on('mousedown', 'span', data, callback, ctx);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('mousedown', 'span', data, callback);
+    });
+  });
+
 });
