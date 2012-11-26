@@ -11,19 +11,14 @@
    * Attaches events to the BEM block
    * Returns itself for further chaining
    */
-  Class.prototype.on = function (e, data, fn, ctx) {
-    // Later on dispose we need to unbind this event(s) with BEM.un method,
-    // wich doesn't accept data parameter, so we need to filter through arguments below.
-
-    // Array of arguments to be passed to BEM.un on dispose
-    var args = [e].concat([].slice.call(arguments, typeof data === 'function' ? 1 : 2));
-
+  Class.prototype.on = function (e, fn, ctx, data) {
     this._disposable._bems.push({
       context: this._elem,
-      args: args
+      // Will be passed to BEM.un on dispose
+      args: [e, fn, ctx]
     });
 
-    BEM.on.apply(this._elem, arguments);
+    BEM.on.call(this._elem, e, data, fn, ctx);
 
     return this;
   };

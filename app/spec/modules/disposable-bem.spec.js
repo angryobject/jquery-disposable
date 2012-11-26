@@ -23,9 +23,9 @@ describe('BEM module', function () {
     spyOn(callback, 'fn');
 
     d.bem(bemBlock).on('click', callback.fn);
-    d.bem(bemBlock).on('someEvt', {foo: 'bar'}, function (e) {
+    d.bem(bemBlock).on('someEvt', function (e) {
       data = e.data;
-    });
+    }, null, {foo: 'bar'});
     d.bem(bemBlock).on('someOtherEvt', function (e) {
       ctx = this;
     }, {foo: 'bar'});
@@ -39,10 +39,10 @@ describe('BEM module', function () {
     expect(data.foo).toEqual('bar');
     expect(ctx.foo).toEqual('bar');
 
-    d.bem(bemBlock).on('someThirdEvt', {foo:'baz'}, function (e, d) {
+    d.bem(bemBlock).on('someThirdEvt', function (e, d) {
       data = e.data;
       ctx = this;
-    }, {foo: 'qux'});
+    }, {foo: 'qux'}, {foo:'baz'});
 
     bemBlock.trigger('someThirdEvt', {foo: 'foo'});
 
@@ -64,9 +64,9 @@ describe('BEM module', function () {
     spyOn(callback, 'fn');
 
     d.bem(bemBlock).on('click', callback.fn);
-    d.bem(bemBlock).on('someEvt', {foo: 'bar'}, function (e) {
+    d.bem(bemBlock).on('someEvt', function (e) {
       data = e.data;
-    });
+    }, null, {foo: 'bar'});
     d.bem(bemBlock).on('someOtherEvt', function (e) {
       ctx = this;
     }, {foo: 'bar'});
@@ -84,10 +84,10 @@ describe('BEM module', function () {
 
     d = jQuery.Disposable();
 
-    d.bem(bemBlock).on('someThirdEvt', {foo:'baz'}, function (e, d) {
+    d.bem(bemBlock).on('someThirdEvt', function (e, d) {
       data = e.data;
       ctx = this;
-    }, {foo: 'qux'});
+    }, {foo: 'qux'}, {foo:'baz'});
 
     d.dispose();
 
