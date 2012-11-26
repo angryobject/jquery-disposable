@@ -15,9 +15,6 @@
   // Contains information about modules
   Class.modules = [];
 
-  // Error message to throw if instance is allready disposed
-  Class.disposedErrMsg = 'Disposable object can be used only once.';
-
   /**
    * Adds member properties
    */
@@ -51,6 +48,16 @@
    */
   prt.isDisposed = function () {
     return this._disposed;
+  };
+
+  /**
+   * Check if instance is disposed
+   * and throw error if so
+   */
+  prt._checkDisposable = function () {
+    if (this.isDisposed()) {
+      throw new Error('Disposable object can be used only once.');
+    }
   };
 
 }(jQuery));

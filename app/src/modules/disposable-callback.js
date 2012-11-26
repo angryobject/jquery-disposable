@@ -6,9 +6,7 @@
   Disposable.prototype.callback = function (fn, ctx) {
     var that = this;
 
-    if (this._disposed) {
-      throw new Error(Disposable.disposedErrMsg);
-    }
+    this._checkDisposable();
 
     return function () {
       return that._disposed ?

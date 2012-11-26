@@ -46,9 +46,7 @@
    * Returns interface for attaching events to the wrapped object
    */
   Disposable.prototype.jQuery = function (elem) {
-    if (this._disposed) {
-      throw new Error(Disposable.disposedErrMsg);
-    }
+    this._checkDisposable();
 
     return new Class(elem, this);
   };
