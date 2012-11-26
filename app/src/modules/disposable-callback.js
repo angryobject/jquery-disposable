@@ -9,7 +9,7 @@
     this._checkDisposable();
 
     return function () {
-      return that._disposed ?
+      return that.isDisposed() ?
         undefined : fn.apply(ctx || this, arguments);
     }
   };
