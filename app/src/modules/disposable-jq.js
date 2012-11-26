@@ -11,32 +11,44 @@
    * Attaches events to the jQuery object
    * Returns itself for further chaining
    */
-  Class.prototype.on = function (types, selector, data, fn, ctx) {
-    var args;
+  Class.prototype.on = function (types, selector, fn, ctx, data) {
+    // Later on dispose we need to unbind this event(s) with jQuery.fn.off method,
+    // wich doesn't accept data parameter, so we need to filter through arguments below.
+    // Also, we need this to bind function(s) to context, if one present.
 
-    // The context argument is allowed only if
-    // the types is passed as string, not an object
-    if (typeof types !== "object") {
-      // If we have context argument - bind callback to it
-      ctx = arguments[arguments.length - 1];
-      if (typeof ctx === 'object') {
-        arguments[arguments.length - 2] = $.proxy(arguments[arguments.length - 2], ctx);
-        arguments = [].slice.call(arguments, 0, -1);
+    if (typeof types === 'object') {
+      if (typeof selector === 'string') {
+        data = ctx;
+        ctx = fn;
+        fn = undefined;
+      } else {
+        data = fn;
+        ctx = selector;
+        selector = fn = undefined;
       }
-    }
 
-    // Later on dispose we need to unbind this event(s) with $.fn.off method,
-    // wich doesn't accept data parameter, so we need to filter through arguments
-    args = [types].concat($.grep([].slice.call(arguments, 1), function (arg) {
-      return typeof arg !== 'object';
-    }));
+      if (ctx) {
+        for (type in types) {
+          types[type] = $.proxy(types[type], ctx);
+        }
+      }
+    } else {
+      if (typeof selector === 'function') {
+        data = ctx;
+        ctx = fn;
+        fn = selector;
+        selector = undefined;
+      }
+
+      ctx && (fn = $.proxy(fn, ctx));
+    };
 
     this._disposable._jQueries.push({
       context: this._elem,
-      args: args
+      args: [types, selector, fn]
     });
 
-    $.fn.on.apply(this._elem, arguments);
+    $.fn.on.call(this._elem, types, selector, data, fn);
 
     return this;
   };

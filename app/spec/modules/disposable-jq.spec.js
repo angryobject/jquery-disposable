@@ -21,9 +21,9 @@ describe('jQuery module', function () {
 
     d.jQuery(jqObj).on('click', callback.fn);
     d.jQuery(jqObj).on('mousedown', 'span', callback.fn);
-    d.jQuery(jqObj).on('someEvt', {foo: 'bar'}, function (e) {
+    d.jQuery(jqObj).on('someEvt', function (e) {
       data = e.data;
-    });
+    }, null, {foo: 'bar'});
 
     jqObj.trigger('click');
     jqObj.trigger('click');
@@ -33,9 +33,9 @@ describe('jQuery module', function () {
     expect(callback.fn.calls.length).toEqual(3);
     expect(data.foo).toEqual('bar');
 
-    d.jQuery(jqObj).on('someOtherEvt', 'span', {foo: 'baz'}, function (e) {
+    d.jQuery(jqObj).on('someOtherEvt', 'span', function (e) {
       data = e.data;
-    });
+    }, null, {foo: 'baz'});
 
     jqSubObj.trigger('someOtherEvt');
 
@@ -54,9 +54,9 @@ describe('jQuery module', function () {
 
     d.jQuery(jqObj).on('click', callback.fn);
     d.jQuery(jqObj).on('mousedown', 'span', callback.fn);
-    d.jQuery(jqObj).on('someEvt', {foo: 'bar'}, function (e) {
+    d.jQuery(jqObj).on('someEvt', function (e) {
       data = e.data;
-    });
+    }, null, {foo: 'bar'});
 
     d.dispose();
 
@@ -70,9 +70,9 @@ describe('jQuery module', function () {
 
     d = jQuery.Disposable();
 
-    d.jQuery(jqObj).on('someOtherEvt', 'span', {foo: 'baz'}, function (e) {
+    d.jQuery(jqObj).on('someOtherEvt', 'span', function (e) {
       data = e.data;
-    });
+    }, null, {foo: 'baz'});
 
     d.dispose();
 
@@ -111,6 +111,21 @@ describe('jQuery module', function () {
     jqObj.trigger('click');
 
     expect(ctx.foo).toEqual('bar');
+
+    d.jQuery(jqObj).on({
+      'click': callback,
+      'someEvt': callback
+    }, {foo: 'baz'});
+
+    jqObj.trigger('click');
+
+    expect(ctx.foo).toEqual('baz');
+
+    ctx = undefined;
+
+    jqObj.trigger('someEvt');
+
+    expect(ctx.foo).toEqual('baz');
   });
 
   it('should not run after dispose and throw an error', function () {
@@ -136,40 +151,40 @@ describe('jQuery module', function () {
       spyOn(jQuery.fn, 'on').andCallThrough();
 
       d.jQuery(jqObj).on('click', callback);
-      expect(jQuery.fn.on).toHaveBeenCalledWith('click', callback);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('click', undefined, undefined, callback);
 
       d.jQuery(jqObj).on('mousedown', 'span', callback);
-      expect(jQuery.fn.on).toHaveBeenCalledWith('mousedown', 'span', callback);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('mousedown', 'span', undefined, callback);
 
-      d.jQuery(jqObj).on('click', data, callback);
-      expect(jQuery.fn.on).toHaveBeenCalledWith('click', data, callback);
+      d.jQuery(jqObj).on('click', callback, null, data);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('click', undefined, data, callback);
 
-      d.jQuery(jqObj).on('mousedown', 'span', data, callback);
+      d.jQuery(jqObj).on('mousedown', 'span', callback, null, data);
       expect(jQuery.fn.on).toHaveBeenCalledWith('mousedown', 'span', data, callback);
 
       d.jQuery(jqObj).on(evtMap);
-      expect(jQuery.fn.on).toHaveBeenCalledWith(evtMap);
+      expect(jQuery.fn.on).toHaveBeenCalledWith(evtMap, undefined, undefined, undefined);
 
       d.jQuery(jqObj).on(evtMap, 'span');
-      expect(jQuery.fn.on).toHaveBeenCalledWith(evtMap, 'span');
+      expect(jQuery.fn.on).toHaveBeenCalledWith(evtMap, 'span', undefined, undefined);
 
-      d.jQuery(jqObj).on(evtMap, data);
-      expect(jQuery.fn.on).toHaveBeenCalledWith(evtMap, data);
+      d.jQuery(jqObj).on(evtMap, null, data);
+      expect(jQuery.fn.on).toHaveBeenCalledWith(evtMap, undefined, data, undefined);
 
-      d.jQuery(jqObj).on(evtMap, 'span', data);
-      expect(jQuery.fn.on).toHaveBeenCalledWith(evtMap, 'span', data);
+      d.jQuery(jqObj).on(evtMap, 'span', null, data);
+      expect(jQuery.fn.on).toHaveBeenCalledWith(evtMap, 'span', data, undefined);
 
       // same when context is supplied
       d.jQuery(jqObj).on('click', callback, ctx);
-      expect(jQuery.fn.on).toHaveBeenCalledWith('click', callback);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('click', undefined, undefined, callback);
 
       d.jQuery(jqObj).on('mousedown', 'span', callback, ctx);
-      expect(jQuery.fn.on).toHaveBeenCalledWith('mousedown', 'span', callback);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('mousedown', 'span', undefined, callback);
 
-      d.jQuery(jqObj).on('click', data, callback, ctx);
-      expect(jQuery.fn.on).toHaveBeenCalledWith('click', data, callback);
+      d.jQuery(jqObj).on('click', callback, ctx, data);
+      expect(jQuery.fn.on).toHaveBeenCalledWith('click', undefined, data, callback);
 
-      d.jQuery(jqObj).on('mousedown', 'span', data, callback, ctx);
+      d.jQuery(jqObj).on('mousedown', 'span', callback, ctx, data);
       expect(jQuery.fn.on).toHaveBeenCalledWith('mousedown', 'span', data, callback);
     });
   });
