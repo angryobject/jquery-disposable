@@ -85,15 +85,11 @@ The jQuery module allows to attach events to a jQuery objects and be able to tur
 	aJQueryObject.trigger('click'); // does nothing
 	aJQueryObject.trigger('customEvt'); // does nothing
 
-The `on` method supports all parameters that jQuery does.
+The `on` method accepts a number of parameters:
 
-Also, you cat pass context for the callback as the last parameter:
+	.on(types, selector, fn, ctx, data)
 
-	d.jQUery(aJQueryObject).on('click', function () {
-		console.log(this); // {foo: 'bar'}
-	}, {foo: 'bar'});
-
-Note, that you can't use the context argument when passing a map of types/handlers as the first parameter.
+where `types`, `selector`, `data` and `fn` are the same as in `jQuery.fn.on` method. Additionally, you can pass the context argument `ctx` to bind the callback function (or functions if using events-map) to it.	
 
 ### BEM module
 
@@ -116,7 +112,11 @@ The BEM module allows to attach events to BEM block just as for jQuery objects a
 	aBemBlock.trigger('click'); // does nothing
 	aBemBlock.trigger('customEvt'); // does nothing
 
-The `on` method supports all parameters that BEM does.
+The `on` method accepts a number of parameters:
+
+	.on(e, fn, ctx, data)
+
+where all the parameters `e`, `data`, `fn` and `ctx` are the same as in `BEM.on` method, just a bit reordered.
 
 ### Ymaps module
 
