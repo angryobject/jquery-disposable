@@ -29,7 +29,9 @@
 
       if (ctx) {
         for (type in types) {
-          types[type] = $.proxy(types[type], ctx);
+          if (types.hasOwnProperty(type)) {
+            types[type] = $.proxy(types[type], ctx);
+          }
         }
       }
     } else {
